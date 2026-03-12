@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from 'next/server'
  * 2. Create a fresh Supabase client with the access token
  * 3. Query — RLS ensures users can only touch their own rows
  *
- * Replace `test_table` with your actual table name.
+ * Replace `posts` with your actual table name.
  */
 
 export async function GET() {
@@ -22,7 +22,7 @@ export async function GET() {
   const supabase = createSupabaseClient(session.tokenSet.accessToken)
 
   const { data, error } = await supabase
-    .from('test_table')
+    .from('posts')
     .select('*')
     .order('created_at', { ascending: false })
 
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
   const supabase = createSupabaseClient(session.tokenSet.accessToken)
 
   const { data, error } = await supabase
-    .from('test_table')
+    .from('posts')
     .insert({
       ...body,
       user_id: session.user.sub, // Auth0 sub — matches RLS policy

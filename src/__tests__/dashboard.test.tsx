@@ -26,17 +26,29 @@ vi.mock('next/navigation', () => ({
   redirect: vi.fn(),
 }))
 
+// Mock TimelineClient — not under test here
+vi.mock('@/components/Timeline/TimelineClient', () => ({
+  default: () => <div>Timeline</div>,
+}))
+
 // Mock Supabase client factory.
 // Supabase validates env vars in createClient() before any HTTP call,
 // so we stub the whole factory and control return data per-test.
 const mockSelect = vi.fn()
+const mockUpsert = vi.fn().mockResolvedValue({ error: null })
+
 vi.mock('@/lib/supabase', () => ({
   createSupabaseClient: () => ({
-    from: () => ({
-      select: () => ({
-        order: mockSelect,
-      }),
-    }),
+    from: (table: string) => {
+      if (table === 'users') {
+        return { upsert: mockUpsert }
+      }
+      return {
+        select: () => ({
+          order: mockSelect,
+        }),
+      }
+    },
   }),
 }))
 
@@ -44,23 +56,23 @@ vi.mock('@/lib/supabase', () => ({
 const getDashboard = () => import('../../app/dashboard/page')
 
 describe('Dashboard', () => {
-  it('renders user email when authenticated', async () => {
-    mockSelect.mockResolvedValue({ data: [{ id: 1, name: 'Test Item' }], error: null })
+  it('renders timeline when upsert succeeds', async () => {
+    mockUpsert.mockResolvedValue({ error: null })
 
     const { default: Dashboard } = await getDashboard()
     const jsx = await Dashboard()
     render(jsx)
 
-    expect(screen.getByText('test@example.com')).toBeInTheDocument()
+    expect(screen.getByText('Timeline')).toBeInTheDocument()
   })
 
-  it('shows empty state when no items', async () => {
-    mockSelect.mockResolvedValue({ data: [], error: null })
+  it('renders error state when upsert fails', async () => {
+    mockUpsert.mockResolvedValue({ error: { message: 'DB error' } })
 
     const { default: Dashboard } = await getDashboard()
     const jsx = await Dashboard()
     render(jsx)
 
-    expect(screen.getByText('No items yet.')).toBeInTheDocument()
+    expect(screen.getByText('Something went wrong. Please try refreshing.')).toBeInTheDocument()
   })
 })

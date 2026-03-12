@@ -1,11 +1,7 @@
-import { auth0 } from '@/lib/auth0'
 import { redirect } from 'next/navigation'
+import { auth0 } from '@/lib/auth0'
 
-/**
- * Root page — redirects based on auth state.
- * Replace this with your actual landing/marketing page if needed.
- */
-export default async function Home() {
+export default async function HomePage() {
   const session = await auth0.getSession()
 
   if (session) {
@@ -13,13 +9,19 @@ export default async function Home() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <a
-        href="/auth/login"
-        className="rounded bg-black px-6 py-3 text-white hover:bg-gray-800"
-      >
-        Log in
-      </a>
+    <main className="min-h-screen flex items-center justify-center bg-surface-subtle">
+      <div className="text-center space-y-6 animate-fade-in">
+        <h1 className="font-display text-5xl text-ink tracking-tight">Linky</h1>
+        <p className="text-ink-secondary text-base max-w-xs mx-auto leading-relaxed">
+          Plan, write, and schedule your LinkedIn content — all in one place.
+        </p>
+        <a
+          href="/auth/login"
+          className="btn-primary mx-auto px-8 py-3 text-base"
+        >
+          Get started
+        </a>
+      </div>
     </main>
   )
 }
