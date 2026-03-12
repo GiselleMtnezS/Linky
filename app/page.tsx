@@ -13,7 +13,7 @@ export default async function HomePage() {
       <div className="text-center space-y-6 animate-fade-in">
         <h1 className="font-display text-5xl text-ink tracking-tight">Linky</h1>
         <p className="text-ink-secondary text-base max-w-xs mx-auto leading-relaxed">
-          Plan, write, and schedule your LinkedIn content — all in one place.
+          Plan, write, and visualize your LinkedIn content — all in one timeline.
         </p>
         <a
           href="/auth/login"
