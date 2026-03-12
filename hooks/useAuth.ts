@@ -11,8 +11,8 @@ export const useAuth = () => {
 
   const login = (returnTo?: string) => {
     window.location.href = returnTo
-      ? `/auth/login?returnTo=${encodeURIComponent(returnTo)}`
-      : '/auth/login'
+      ? `/?returnTo=${encodeURIComponent(returnTo)}`
+      : '/'
   }
 
   const logout = () => {

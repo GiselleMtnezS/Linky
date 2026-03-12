@@ -7,7 +7,7 @@ export default async function DashboardPage() {
   const session = await auth0.getSession()
 
   if (!session) {
-    redirect('/auth/login')
+    redirect('linky/auth/login')
   }
 
   const { user, tokenSet } = session
