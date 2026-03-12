@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  basePath: '/linky',
   images: {
     remotePatterns: [
       {
@@ -15,6 +16,7 @@ const nextConfig: NextConfig = {
         ? `https://${process.env.VERCEL_URL}`
         : process.env.APP_BASE_URL,
   },
+
 }
 
 export default nextConfig
