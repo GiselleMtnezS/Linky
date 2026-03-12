@@ -16,7 +16,7 @@ export default async function HomePage() {
           Plan, write, and schedule your LinkedIn content — all in one place.
         </p>
         <a
-          href="linky/auth/login"
+          href="/auth/login"
           className="btn-primary mx-auto px-8 py-3 text-base"
         >
           Get started
