@@ -10,6 +10,11 @@ console.log('AUTH0_BASE_URL', process.env.AUTH0_BASE_URL)
 console.log('APP_BASE_URL', process.env.APP_BASE_URL)
 export const auth0 = new Auth0Client({
   appBaseUrl: process.env.APP_BASE_URL, // https://gmtnezschez.com/linky
+  routes: {
+    login: '/linky/auth/login',
+    callback: '/linky/auth/callback',
+    logout: '/linky/auth/logout',
+  },
   authorizationParameters: {
     // Uncomment and set AUTH0_AUDIENCE in .env.local if you're using
     // Auth0 as an authorization server for your own API.
